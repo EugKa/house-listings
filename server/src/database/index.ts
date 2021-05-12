@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { MongoClient } from 'mongodb'
+import { Database } from '../lib/types'
 
-const user = 'Eugene-tiny-pract'
-const userPassword = '3eMUnWSIHq8hxuQ2'
-const cluster = 'cluster0.6ehmi'
+const url = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_USER_PASSWORD}@${process.env.MONGO_DB_CLUSTER}.mongodb.net/tiny-pract?retryWrites=true&w=majority`
 
-const url = `mongodb+srv://${user}:${userPassword}@${cluster}.mongodb.net/tiny-pract?retryWrites=true&w=majority`
-
-export const connectDatabase = async () => {
+export const connectDatabase = async (): Promise<Database> => {
     const client = await MongoClient.connect(url, {
         useNewUrlParser: true,
-        // useUnifiedTopology: true,
+        useUnifiedTopology: true,
     })
     const db = client.db("main")
 

@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express'
 
 export const typeDefs = gql`
-    type Listnings {
+    type Listning {
         id: ID!
         title: String!
         image: String!
@@ -14,10 +14,10 @@ export const typeDefs = gql`
     }
 
     type Query {
-        listnings: [Listnings!]!
+        listnings: [Listning!]!
     }
 
     type Mutation {
-        deleteListning(id: ID!): Listnings!
+        deleteListning(id: ID!): Listning!
     }
 `
