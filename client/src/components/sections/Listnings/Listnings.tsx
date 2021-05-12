@@ -1,10 +1,9 @@
-import React, { FC, useState } from 'react'
-import { server } from '../../../lib/api'
+import React from 'react'
+import { server, useQuery } from '../../../lib/api'
 import { 
     IListingData, 
     IDeleteListningVariables, 
     IDeleteListningData, 
-    IListing
  } from './types'
 
 const LISTNINGS = `
@@ -35,13 +34,13 @@ interface Props {
     title?: string
 }
 
-export const Listnings: FC<Props> = (props) => {
-    const [listnings, setListnings] = useState<IListing[] | null>(null)
+export const Listnings = (props: Props) => {
+    const {data, refetch, loading, error} = useQuery<IListingData>(
+        LISTNINGS,
+        
+         )
 
-    const fetchListnings = async () => {
-        const {data} = await server.fetch<IListingData>({query: LISTNINGS})
-        setListnings(data.listnings)
-    }
+
     const deleteListning = async (id:string) => {
         await server.fetch<IDeleteListningData, IDeleteListningVariables>({
             query: DELETE_LISTNING,
@@ -49,8 +48,10 @@ export const Listnings: FC<Props> = (props) => {
                 id
             }
         })
-        fetchListnings()
+        refetch()
     }
+
+    const listnings = data ? data.listnings : null
     
     const renderList = listnings ? (
         <ul>
@@ -65,10 +66,17 @@ export const Listnings: FC<Props> = (props) => {
         </ul>
     ) : null
 
+    if(loading) {
+        return <h2>Loading...</h2>
+    }
+
+    if(error) {
+        return <h2>Yh oh! Somthing went wrong - please try again later :(</h2>   
+    }
+
     return (
         <div>
             {props.title}
-            <button onClick={fetchListnings}>Query Listnings</button>
             {renderList}
         </div>
     )

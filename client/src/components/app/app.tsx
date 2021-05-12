@@ -4,7 +4,7 @@ import { Listnings } from '../sections';
 export function App() {
   return (
     <div className="App">
-        <Listnings/>
+        <Listnings title="TITLE"/>
     </div>
   );
 }
