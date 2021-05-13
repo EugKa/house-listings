@@ -18,6 +18,7 @@ export const listningResolvers: IResolvers = {
       { id }: { id: string },
       { db }: { db: Database }
     ): Promise<IListing> => {
+      
       const deleteRes = await db.listnings.findOneAndDelete({
         _id: new ObjectId(id)
       });
@@ -25,7 +26,6 @@ export const listningResolvers: IResolvers = {
       if (!deleteRes.value) {
         throw new Error("failed to delete listing");
       }
-
       return deleteRes.value;
     }
   },

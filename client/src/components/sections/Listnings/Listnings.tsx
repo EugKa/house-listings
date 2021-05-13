@@ -1,5 +1,5 @@
 import React from 'react'
-import { server, useQuery } from '../../../lib/api'
+import {  useMutation, useQuery } from '../../../lib/api'
 import { 
     IListingData, 
     IDeleteListningVariables, 
@@ -35,19 +35,15 @@ interface Props {
 }
 
 export const Listnings = (props: Props) => {
-    const {data, refetch, loading, error} = useQuery<IListingData>(
-        LISTNINGS,
-        
-         )
+    const {data, refetch, loading, error} = useQuery<IListingData>(LISTNINGS)
 
+    const [deleteListning, 
+        {
+            loading: deleteListningLoading, error: deleteListningError
+        }] = useMutation<IDeleteListningData, IDeleteListningVariables>(DELETE_LISTNING)
 
-    const deleteListning = async (id:string) => {
-        await server.fetch<IDeleteListningData, IDeleteListningVariables>({
-            query: DELETE_LISTNING,
-            variables: {
-                id
-            }
-        })
+    const handleDeleteListning = async (id:string) => {
+        await deleteListning({id})
         refetch()
     }
 
@@ -59,7 +55,7 @@ export const Listnings = (props: Props) => {
                 listnings.map((listning) => {
                     return <li style={{display: "flex"}} key={listning.id}>
                         <div style={{paddingRight: "10px"}}>{listning.title}</div>
-                        <button onClick={() => deleteListning(listning.id)}>Delete</button>
+                        <button onClick={() => handleDeleteListning(listning.id)}>Delete</button>
                         </li>
                 })
             }
@@ -74,10 +70,22 @@ export const Listnings = (props: Props) => {
         return <h2>Yh oh! Somthing went wrong - please try again later :(</h2>   
     }
 
+    const deleteListningLoadingMassage = deleteListningLoading
+    ? (
+        <h4>Deletion in progress...</h4>
+    ) : null;
+
+    const deleteListningErrorMassage = deleteListningError
+    ? (
+        <h4>Uh oh! Somthing went wrong with deleting - please try again later :(</h4>
+    ) : null;
+
     return (
         <div>
             {props.title}
             {renderList}
+            {deleteListningLoadingMassage}
+            {deleteListningErrorMassage}
         </div>
     )
 }
