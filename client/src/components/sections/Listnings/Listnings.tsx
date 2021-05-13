@@ -1,12 +1,13 @@
 import React from 'react'
-import {  useMutation, useQuery } from '../../../lib/api'
+import {gql} from 'apollo-boost'
+import { useMutation, useQuery } from 'react-apollo'
 import { 
     IListingData, 
     IDeleteListningVariables, 
     IDeleteListningData, 
  } from './types'
 
-const LISTNINGS = `
+const LISTNINGS = gql`
     query Listning {
         listnings {
             id
@@ -22,7 +23,7 @@ const LISTNINGS = `
     }
 `
 
-const DELETE_LISTNING = `
+const DELETE_LISTNING = gql`
     mutation DeleteListning($id: ID!) {
         deleteListning(id: $id) {
             id
@@ -43,7 +44,7 @@ export const Listnings = (props: Props) => {
         }] = useMutation<IDeleteListningData, IDeleteListningVariables>(DELETE_LISTNING)
 
     const handleDeleteListning = async (id:string) => {
-        await deleteListning({id})
+        await deleteListning({variables: {id}})
         refetch()
     }
 
@@ -82,7 +83,7 @@ export const Listnings = (props: Props) => {
 
     return (
         <div>
-            {props.title}
+            <h1>{props.title}</h1>
             {renderList}
             {deleteListningLoadingMassage}
             {deleteListningErrorMassage}
