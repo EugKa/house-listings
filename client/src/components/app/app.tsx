@@ -1,10 +1,10 @@
 import React from 'react';
-import { Listnings } from '../sections';
+import { Listings } from '../Listings';
 
 export function App() {
   return (
     <div className="App">
-        <Listnings title="House Listings"/>
+        <Listings title="House Listings"/>
     </div>
   );
 }

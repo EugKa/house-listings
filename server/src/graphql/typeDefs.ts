@@ -14,10 +14,10 @@ export const typeDefs = gql`
     }
 
     type Query {
-        listnings: [Listning!]!
+        listings: [Listning!]!
     }
 
     type Mutation {
-        deleteListning(id: ID!): Listning!
+        deleteListing(id: ID!): Listning!
     }
 `

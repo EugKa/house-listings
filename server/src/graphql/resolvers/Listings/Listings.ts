@@ -2,9 +2,9 @@ import { ObjectId } from "mongodb";
 import { IResolvers } from "apollo-server-express";
 import { Database, IListing } from "../../../lib/types";
 
-export const listningResolvers: IResolvers = {
+export const listingResolvers: IResolvers = {
   Query: {
-    listnings: async (
+    listings: async (
       _root: undefined,
       _args,
       { db }: { db: Database }
@@ -13,7 +13,7 @@ export const listningResolvers: IResolvers = {
     }
   },
   Mutation: {
-    deleteListning: async (
+    deleteListing: async (
       _root: undefined,
       { id }: { id: string },
       { db }: { db: Database }

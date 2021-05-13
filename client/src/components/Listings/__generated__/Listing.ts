@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: Listning
+// GraphQL query operation: Listing
 // ====================================================
 
-export interface Listning_listnings {
+export interface Listing_listings {
   __typename: "Listning";
   id: string;
   title: string;
@@ -20,6 +20,6 @@ export interface Listning_listnings {
   rating: number;
 }
 
-export interface Listning {
-  listnings: Listning_listnings[];
+export interface Listing {
+  listings: Listing_listings[];
 }

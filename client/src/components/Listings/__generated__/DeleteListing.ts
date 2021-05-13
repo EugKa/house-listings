@@ -4,18 +4,18 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: DeleteListning
+// GraphQL mutation operation: DeleteListing
 // ====================================================
 
-export interface DeleteListning_deleteListning {
+export interface DeleteListing_deleteListing {
   __typename: "Listning";
   id: string;
 }
 
-export interface DeleteListning {
-  deleteListning: DeleteListning_deleteListning;
+export interface DeleteListing {
+  deleteListing: DeleteListing_deleteListing;
 }
 
-export interface DeleteListningVariables {
+export interface DeleteListingVariables {
   id: string;
 }
