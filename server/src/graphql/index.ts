@@ -1,2 +1,2 @@
-export * from './resolvers/Listings'
 export * from './typeDefs'
+export * from './resolvers'
