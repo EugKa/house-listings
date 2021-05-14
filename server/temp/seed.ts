@@ -50,7 +50,7 @@ const seed = async () => {
     ];
 
     for (const listing of listings) {
-      await db.listnings.insertOne(listing);
+      await db.listings.insertOne(listing);
     }
 
     console.log("[seed] : success");

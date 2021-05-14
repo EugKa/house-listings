@@ -9,7 +9,7 @@ export const listingResolvers: IResolvers = {
       _args,
       { db }: { db: Database }
     ): Promise<IListing[]> => {
-      return await db.listnings.find({}).toArray();
+      return await db.listings.find({}).toArray();
     }
   },
   Mutation: {
@@ -19,7 +19,7 @@ export const listingResolvers: IResolvers = {
       { db }: { db: Database }
     ): Promise<IListing> => {
       
-      const deleteRes = await db.listnings.findOneAndDelete({
+      const deleteRes = await db.listings.findOneAndDelete({
         _id: new ObjectId(id)
       });
 
