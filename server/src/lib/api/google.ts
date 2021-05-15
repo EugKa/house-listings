@@ -21,9 +21,9 @@ export const Google = {
 
         const {data} = await google.people({version: "v1", auth}).people.get({
             resourceName: 'people/me',
-            personFields: 'emailAddresses,name,photos'
+            personFields: 'emailAddresses,names,photos'
         })
 
-        return {user: data}
+        return { user: data }
     }
 }
