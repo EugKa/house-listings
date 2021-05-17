@@ -13,7 +13,6 @@ import { authUrl as AuthUrlData } from "../../lib/graphql/queries/AuthUrl/__gene
 import { displayErrorMessage, displaySuccessNotification } from "../../lib/utils";
 import { Viewer } from "../../lib/types";
 
-// Image Assets
 import googleLogo from "./assets/google_logo.jpg";
 
 interface Props {
