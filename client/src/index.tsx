@@ -8,6 +8,14 @@ import './styles/index.css'
 
 const client = new ApolloClient({
   uri: '/api',
+  request: async operation => {
+    const token = sessionStorage.getItem("token")
+    operation.setContext({
+      headers: {
+        "X-CSRF-TOKEN": token || ""
+      }
+    })
+  }
 })
 
 ReactDOM.render(

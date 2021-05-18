@@ -21,10 +21,11 @@ export const MenuItems = ({viewer, setViewer}:Props) => {
         onCompleted: (data) => {
             if(data && data.logOut) {
                 setViewer(data.logOut)
+                sessionStorage.removeItem("token")
                 displaySuccessNotification("You've successfully logged out!")
             }
         },
-        onError: data => {
+        onError: () => {
             displayErrorMessage(
                 "Sorry We weren't able to log you out. Please try againg later!"
             )
