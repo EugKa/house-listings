@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { Route, Switch } from 'react-router';
 import { Home } from '../Home';
 import { Host } from '../Host';
@@ -7,10 +7,14 @@ import { Listings } from '../Listings';
 import { Login } from '../Login';
 import { NotFound } from '../NotFound';
 import { User } from '../User';
-import { Affix, Layout } from "antd";
+import { Affix, Layout, Spin } from "antd";
 import { Viewer } from "../../lib/types";
-import '../../styles/index.css'
 import { AppHeader } from '../Header';
+import { AppHeaderSkeleton, ErrorBanner } from '../../lib/components'
+import '../../styles/index.css'
+import { useMutation } from '@apollo/react-hooks';
+import { LOG_IN } from '../../lib/graphql/mutations';
+import { LogIn as LogInData, LogInVariables } from '../../lib/graphql/mutations/LogIn/__generated__/LogIn';
 
 const initialViewer: Viewer = {
   id: null,
@@ -22,10 +26,36 @@ const initialViewer: Viewer = {
 
 export function App() {
   const [viewer, setViewer] = useState<Viewer>(initialViewer)
-  console.log(viewer);
+  const [logIn, { error }] = useMutation<LogInData, LogInVariables>(LOG_IN, {
+    onCompleted: data => {
+      if(data && data.logIn) {
+        setViewer(data.logIn)
+      }
+    }
+  })
+  const logInRef = useRef(logIn)
+
+  useEffect(() => {
+    logInRef.current()
+  },[])
+
+  if(!viewer.didRequest && !error) {
+    return (
+      <Layout className="app-skeleton">
+        <AppHeaderSkeleton/>
+        <div className="app-skeleton__spin-section">
+          <Spin size="large" tip="Launching TinyHouse"/>
+        </div>
+      </Layout>
+    )
+    
+  }
+
+  const logInErrorBannerElement = error ? <ErrorBanner description="We weren't able to veritfy if you were logged in. Please try again later"/> : null;
   
   return (
     <Layout id="app">
+      {logInErrorBannerElement}
       <Affix offsetTop={0} className="app__affix-header">
         <AppHeader viewer={viewer} setViewer={setViewer}/>
       </Affix>
