@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { LogInInput } from "../../../globalTypes";
+import { LogInInput } from "./../../../../../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: LogIn

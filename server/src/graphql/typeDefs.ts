@@ -1,9 +1,9 @@
-import { gql } from 'apollo-server-express'
+import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
   type Booking {
-    id: String!
-    listing:Listing!
+    id: ID!
+    listing: Listing!
     tenant: User!
     checkIn: String!
     checkOut: String!
@@ -12,11 +12,6 @@ export const typeDefs = gql`
   type Bookings {
     total: Int!
     result: [Booking!]!
-  }
-
-  type Listings {
-    total:Int!
-    result: [Listing!]!
   }
 
   enum ListingType {
@@ -39,10 +34,16 @@ export const typeDefs = gql`
     numOfGuests: Int!
   }
 
+  type Listings {
+    total: Int!
+    result: [Listing!]!
+  }
+
   type User {
     id: ID!
-    name:String!
+    name: String!
     avatar: String!
+    contact: String!
     hasWallet: Boolean!
     income: Int
     bookings(limit: Int!, page: Int!): Bookings
@@ -63,11 +64,11 @@ export const typeDefs = gql`
 
   type Query {
     authUrl: String!
-    user(id:ID!): User!
+    user(id: ID!): User!
   }
 
   type Mutation {
     logIn(input: LogInInput): Viewer!
     logOut: Viewer!
   }
-`
+`;

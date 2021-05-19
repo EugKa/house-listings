@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router';
 import { Home } from '../Home';
 import { Host } from '../Host';
 import { Listing } from '../Listing';
-import { Listings } from '../Listings';
+import { Listings } from '../Listings/Listings';
 import { Login } from '../Login';
 import { NotFound } from '../NotFound';
 import { User } from '../User';
@@ -71,7 +71,7 @@ export function App() {
           <Route exact path="/listing/:id" component={Listing}/>
           <Route exact path="/listings/:location?" component={Listings}/>
           <Route exact path="/login" render={props =><Login {...props} setViewer={setViewer}/>}/>
-          <Route exact path="/user/:id" component={User}/>
+          <Route exact path="/user/:id" render={props =><User {...props} viewer={viewer}/>}/>
           <Route component={NotFound}/>
         </Switch>
     </Layout>

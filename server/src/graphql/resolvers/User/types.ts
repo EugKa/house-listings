@@ -4,12 +4,12 @@ export interface UserArgs {
     id: string
 }
 
-export interface UserBookingArgs {
+export interface UserBookingsArgs {
     limit: number;
     page: number;
 }
 
-export interface UserBookingData {
+export interface UserBookingsData {
     total: number;
     result: Booking[]
 }
