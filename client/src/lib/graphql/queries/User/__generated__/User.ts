@@ -65,7 +65,7 @@ export interface User {
 
 export interface UserVariables {
   id: string;
-  bookingsPage?: number;
-  listingsPage?: number;
-  limit?: number;
+  bookingsPage: number;
+  listingsPage: number;
+  limit: number;
 }
