@@ -47,6 +47,7 @@ export interface Listing_listing {
   host: Listing_listing_host;
   type: ListingType;
   address: string;
+  city: string;
   bookings: Listing_listing_bookings | null;
   bookingsIndex: string;
   price: number;

@@ -15,6 +15,7 @@ export const LISTING = gql `
             }
             type
             address
+            city
             bookings(limit: $limit, page: $bookingsPage) {
                 total
                 result {
