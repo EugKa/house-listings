@@ -39,6 +39,7 @@ export interface IListing {
     bookingsIndex: bookingsIndex;
     price: number;
     numOfGuests: number;
+    authorized?: boolean;
 }
 
 export interface Booking {
