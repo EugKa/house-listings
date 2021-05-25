@@ -1,5 +1,5 @@
 import { IResolvers } from 'apollo-server-express'
-import { Booking, Database, IListing } from '../../../lib/types'
+import { Booking, Database, Listing } from '../../../lib/types'
 
 export const bookingsResolver: IResolvers = {
     Booking: {
@@ -10,7 +10,7 @@ export const bookingsResolver: IResolvers = {
             booking: Booking, 
             _args, 
             { db }: { db: Database }
-        ):Promise<IListing | null> => {
+        ):Promise<Listing | null> => {
             return db.listings.findOne({_id: booking.listing})
         }
     }

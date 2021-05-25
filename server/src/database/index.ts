@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb'
-import { Database, User, IListing, Booking } from '../lib/types'
+import { Database, User, Listing, Booking } from '../lib/types'
 
 const {MONGO_DB_USER, MONGO_DB_USER_PASSWORD, MONGO_DB_CLUSTER} = process.env
 
@@ -15,7 +15,7 @@ export const connectDatabase = async (): Promise<Database> => {
 
     return {
         bookings: db.collection<Booking>("bookings"),
-        listings: db.collection<IListing>('listnings'),
+        listings: db.collection<Listing>('listnings'),
         users: db.collection<User>("users")
     }
 }

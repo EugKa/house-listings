@@ -1,4 +1,4 @@
-import { Booking,IListing } from "../../../lib/types";
+import { Booking, Listing } from "../../../lib/types";
 
 export interface UserArgs {
     id: string
@@ -21,5 +21,5 @@ export interface UserListingsArgs {
 
 export interface UserListingsData {
     total: number;
-    result: IListing[];
+    result: Listing[];
 }

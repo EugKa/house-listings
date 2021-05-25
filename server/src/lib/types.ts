@@ -24,7 +24,7 @@ export interface BookingsIndexYear {
 export interface bookingsIndex {
     [key: string]: BookingsIndexYear
 }
-export interface IListing {
+export interface Listing {
     _id: ObjectId;
     title: string;
     description: string;
@@ -64,7 +64,7 @@ export interface User {
 }
 
 export interface Database {
-    listings: Collection<IListing>;
+    listings: Collection<Listing>;
     users:Collection<User>;
     bookings: Collection<Booking>;
 }
