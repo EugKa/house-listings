@@ -26,9 +26,12 @@ export const UserBookings = ({
         <List
             grid={{
                 gutter: 8,
-                xs: 1,
-                sm: 2,
-                lg: 4,
+                    xs: 1,
+                    sm: 2,
+                    md: 2,
+                    lg: 4,
+                    xl: 4,
+                    xxl: 4
             }}
             dataSource={result ? result : undefined}
             locale={{ emptyText: "You haven't mage any bookings" }}

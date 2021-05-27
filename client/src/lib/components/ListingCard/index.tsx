@@ -17,7 +17,7 @@ interface Props {
 
 const { Text, Title } = Typography;
 
-export const ListingCard = ({listing}:Props) => {
+export const ListingCard = ({ listing }:Props) => {
     const { id, title, image, address, price, numOfGuests } = listing;
     return (
         <Link to={`/listing/${id}`}>
