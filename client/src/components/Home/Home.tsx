@@ -48,6 +48,8 @@ export const Home = ({history}: RouteComponentProps) => {
         if(data) {
             return <HomeListings title="Premium Listings" listings={data.listings.result}/>
         }
+
+        return null;
     }
 
     return (
