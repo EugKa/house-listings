@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { Layout, List, Typography, Affix } from "antd";
 import { ListingCard, ErrorBanner } from "../../lib/components";
@@ -19,9 +19,11 @@ interface MatchParams {
 }
 
 export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
+    const locationRef = useRef(match.params.location)
     const [filter, setFilter] = useState(ListingsFilter.PRICE_LOW_TO_HIGH)
     const [page, setPage] = useState(1)
     const { data, loading, error } = useQuery<ListingsData, ListingsVariables>(LISTINGS, {
+        skip: locationRef.current !== match.params.location && page !== 1,
         variables: {
             location: match.params.location,
             filter,
@@ -29,6 +31,11 @@ export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
             page
         }
     })
+
+    useEffect(() => {
+        setPage(1) 
+        locationRef.current = match.params.location
+    }, [match.params.location])
 
     if(loading) {
         return (
