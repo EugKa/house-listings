@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router';
 import { Home } from '../Home';
 import { Host } from '../Host';
 import { Listing } from '../Listing';
-import { Listings } from '../Listings/Listings';
+import { Listings } from '../Listings';
 import { Login } from '../Login';
 import { NotFound } from '../NotFound';
 import { User } from '../User';
