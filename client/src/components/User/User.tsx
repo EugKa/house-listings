@@ -30,6 +30,11 @@ export const User = ({match, viewer}:Props & RouteComponentProps<MatchParams>) =
         }
     })
 
+    const stripeError = new URL(window.location.href).searchParams.get("stripe_error")
+    const stripeErrorBanner = stripeError ? (
+        <ErrorBanner description="We had as issue connecting with Stripe. Please try again soon."/>    
+    ): null;
+
     if(loading) {
         return (
             <Content className="user">
@@ -75,6 +80,7 @@ export const User = ({match, viewer}:Props & RouteComponentProps<MatchParams>) =
 
     return (
         <Content className="user">
+            {stripeErrorBanner}
             <Row gutter={12}  justify="space-between">
                 <Col xs={24}>{userProfileElement}</Col>
                 <Col xs={24}>

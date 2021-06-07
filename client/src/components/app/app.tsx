@@ -15,6 +15,7 @@ import '../../styles/index.css'
 import { useMutation } from '@apollo/react-hooks';
 import { LOG_IN } from '../../lib/graphql/mutations';
 import { LogIn as LogInData, LogInVariables } from '../../lib/graphql/mutations/LogIn/__generated__/LogIn';
+import { Stripe } from '../Stripe';
 
 const initialViewer: Viewer = {
   id: null,
@@ -71,6 +72,7 @@ export function App() {
           <Route exact path="/listing/:id" component={Listing}/>
           <Route exact path="/listings/:location?" component={Listings}/>
           <Route exact path="/login" render={props =><Login {...props} setViewer={setViewer}/>}/>
+          <Route exact path="/stripe" render={props =><Stripe {...props} viewer={viewer} setViewer={setViewer}/>}/>
           <Route exact path="/user/:id" render={props =><User {...props} viewer={viewer}/>}/>
           <Route component={NotFound}/>
         </Switch>
