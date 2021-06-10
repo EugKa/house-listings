@@ -13,19 +13,6 @@ interface Props {
     viewer: Viewer
 }
 
-interface InputProps {
-    type: ListingType;
-    numOfGuests: number;
-    title: string;
-    description: string;
-    address: string;
-    city?: string;
-    state?: string;
-    postalCode?: string;
-    image?: string;
-    price: number;
-}
-
 const { Content } = Layout;
 const { Text, Title } = Typography;
 const { Item } = Form;
