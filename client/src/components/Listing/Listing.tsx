@@ -7,15 +7,20 @@ import { RouteComponentProps } from 'react-router'
 import { Layout, Row, Col } from 'antd'
 import { PageSkeleton, ErrorBanner } from '../../lib/components'
 import { ListingBookings, ListingDetails, ListingCreateBooking } from '../Listing/components'
+import { Viewer } from '../../lib/types'
 
 interface MatchParams {
     id: string;
 }
 
+interface Props {
+    viewer: Viewer;
+}
+
 const PAGE_LIMIT = 3;
 const { Content } = Layout;
 
-export const Listing = ({match}: RouteComponentProps<MatchParams>) => {
+export const Listing = ({match, viewer}: Props & RouteComponentProps<MatchParams>) => {
     const [bookingsPage, setBookingsPage] = useState(1);
     const [checkInDate, setCheckInDate] = useState<Moment | null>(null)
     const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null)
@@ -62,6 +67,9 @@ export const Listing = ({match}: RouteComponentProps<MatchParams>) => {
 
     const listingCreateBooking = listing ? (
         <ListingCreateBooking 
+            host={listing.host}
+            viewer={viewer}
+            bookingsIndex={listing.bookingsIndex}
             price={listing.price}
             checkInDate={checkInDate}
             checkOutDate={checkOutDate}
