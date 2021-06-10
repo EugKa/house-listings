@@ -12,7 +12,7 @@ interface Props {
     viewer: Viewer;
     setViewer: (viewer: Viewer) => void;
     viewerIsUser: boolean;
-    handleUserRefetch: () => void
+    handleUserRefetch: () => Promise<void>
 }
 
 const { REACT_APP_S_CLIENT_ID } = process.env;

@@ -16,6 +16,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { LOG_IN } from '../../lib/graphql/mutations';
 import { LogIn as LogInData, LogInVariables } from '../../lib/graphql/mutations/LogIn/__generated__/LogIn';
 import { Stripe } from '../Stripe';
+import {loadStripe} from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 const initialViewer: Viewer = {
   id: null,
@@ -59,24 +61,27 @@ export function App() {
   }
 
   const logInErrorBannerElement = error ? <ErrorBanner description="We weren't able to veritfy if you were logged in. Please try again later"/> : null;
-  
+  const stripePromise = loadStripe(process.env.REACT_APP_S_PUBL_KEY as string)
+
   return (
-    <Layout id="app">
-      {logInErrorBannerElement}
-      <Affix offsetTop={0} className="app__affix-header">
-        <AppHeader viewer={viewer} setViewer={setViewer}/>
-      </Affix>
-        <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route exact path="/host" render={props =><Host {...props} viewer={viewer}/>}/>
-          <Route exact path="/listing/:id" render={props =><Listing {...props} viewer={viewer}/>}/>
-          <Route exact path="/listings/:location?" component={Listings}/>
-          <Route exact path="/login" render={props =><Login {...props} setViewer={setViewer}/>}/>
-          <Route exact path="/stripe" render={props =><Stripe {...props} viewer={viewer} setViewer={setViewer}/>}/>
-          <Route exact path="/user/:id" render={props =><User {...props} viewer={viewer} setViewer={setViewer}/>}/>
-          <Route component={NotFound}/>
-        </Switch>
-    </Layout>
+    <Elements stripe={stripePromise}>
+      <Layout id="app">
+        {logInErrorBannerElement}
+        <Affix offsetTop={0} className="app__affix-header">
+          <AppHeader viewer={viewer} setViewer={setViewer}/>
+        </Affix>
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/host" render={props =><Host {...props} viewer={viewer}/>}/>
+            <Route exact path="/listing/:id" render={props =><Listing {...props} viewer={viewer}/>}/>
+            <Route exact path="/listings/:location?" component={Listings}/>
+            <Route exact path="/login" render={props =><Login {...props} setViewer={setViewer}/>}/>
+            <Route exact path="/stripe" render={props =><Stripe {...props} viewer={viewer} setViewer={setViewer}/>}/>
+            <Route exact path="/user/:id" render={props =><User {...props} viewer={viewer} setViewer={setViewer}/>}/>
+            <Route component={NotFound}/>
+          </Switch>
+      </Layout>
+    </Elements>
   );
 }
 
