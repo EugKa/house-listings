@@ -109,20 +109,20 @@ export const listingsResolver: IResolvers = {
       hostListing: async (
         _root: undefined,
         { input }: HostListingArgs,
-        { db, req }: { db: Database, req: Request } 
+        { db, req }: { db: Database; req: Request }
       ): Promise<Listing> => {
-        verifyHostListingInput(input)
-
+        verifyHostListingInput(input);
+  
         const viewer = await authorize(db, req);
-        if(!viewer) {
-          throw new Error("viewer cannot be found"); 
+        if (!viewer) {
+          throw new Error("viewer cannot be found");
         }
-
-        const { country, admin, city } = await Google.geocode(input.address)
-        if(!country || !admin || !city) {
+  
+        const { country, admin, city } = await Google.geocode(input.address);
+        if (!country || !admin || !city) {
           throw new Error("invalid address input");
         }
-
+  
         const insertResult = await db.listings.insertOne({
           _id: new ObjectId(),
           ...input,
@@ -132,16 +132,16 @@ export const listingsResolver: IResolvers = {
           admin,
           city,
           host: viewer._id
-        })
-
+        });
+  
         const insertedListing: Listing = insertResult.ops[0];
-
+  
         await db.users.updateOne(
-          { id: viewer._id },
-          { $push: { listings: insertedListing._id }}
-        )
-
-        return insertedListing
+          { _id: viewer._id },
+          { $push: { listings: insertedListing._id } }
+        );
+  
+        return insertedListing;
       }
     },
     Listing: {

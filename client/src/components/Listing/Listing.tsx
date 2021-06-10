@@ -47,6 +47,8 @@ export const Listing = ({match}: RouteComponentProps<MatchParams>) => {
     const listing = data ? data.listing : null;
     const listingBookings = listing ? listing.bookings : null;
 
+    console.log(`listing`, listing)
+
     const ListingDetailsElement = listing ? (<ListingDetails listing={listing}/>) : null;
 
     const ListingBookingsElement = listingBookings ? (
