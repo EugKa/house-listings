@@ -3,10 +3,10 @@ import { Layout, Spin } from 'antd'
 import { useMutation } from '@apollo/react-hooks';
 import { CONNECT_STRIPE } from '../../lib/graphql/mutations';
 import { ConnectStripe as ConnectStripeData ,ConnectStripeVariables } from '../../lib/graphql/mutations/ConnectStripe/__generated__/ConnectStripe';
-import { Redirect, RouteComponentProps } from 'react-router';
 import { Viewer } from '../../lib/types';
 import { displaySuccessNotification } from '../../lib/utils';
 import { useScrollToTop } from '../../lib/hooks';
+import { useHistory, Redirect } from 'react-router-dom';
 
 interface Props {
     viewer: Viewer;
@@ -14,7 +14,7 @@ interface Props {
 }
  
 const { Content } = Layout;
-export const Stripe = ({ viewer, setViewer, history}: Props & RouteComponentProps) => {
+export const Stripe = ({ viewer, setViewer}: Props) => {
     const [connectStripe, { data, loading, error }] = useMutation<
         ConnectStripeData,
         ConnectStripeVariables
@@ -28,7 +28,9 @@ export const Stripe = ({ viewer, setViewer, history}: Props & RouteComponentProp
             }
         }
     })
-    const connectStripeRef = useRef(connectStripe)
+    const connectStripeRef = useRef(connectStripe);
+
+    const history = useHistory();
 
     useScrollToTop();
 

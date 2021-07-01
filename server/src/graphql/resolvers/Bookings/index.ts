@@ -6,6 +6,8 @@ import { authorize } from '../../../lib/utils';
 import { CreatebookingArgs } from './types';
 import { Stripe } from '../../../lib/api';
 
+const millisecondsPerDay = 86400000;
+
 const resolveBookingsIndex = (
     bookingsIndex: bookingsIndex, 
     checkInDate: string, 
@@ -34,7 +36,7 @@ const resolveBookingsIndex = (
             throw new Error("selected dates can't overlap dates that have already been booked");
         }
 
-        dateCursor = new Date(dateCursor.getTime() + 86400000)
+        dateCursor = new Date(dateCursor.getTime() + millisecondsPerDay)
     }
 
     return newBookingsIndex;
@@ -69,8 +71,17 @@ export const bookingsResolver: IResolvers = {
                     throw new Error("viewer can't book own listing");
                 }
                 //check that checkOut is Not before checkIn
+                const today = new Date()
                 const checkInDate = new Date(checkIn)
                 const checkOutDate = new Date(checkOut)
+
+                if(checkInDate.getTime() > today.getTime() + 90 * millisecondsPerDay ) {
+                    throw new Error("check in date can't be more than 90 days from today");
+                }
+
+                if(checkOutDate.getTime() > today.getTime() + 90 * millisecondsPerDay ) {
+                    throw new Error("check in date can't be more than 90 days from today");
+                }
 
                 if(checkOutDate < checkInDate) {
                     throw new Error("check out date can't be before check in date");
@@ -84,7 +95,7 @@ export const bookingsResolver: IResolvers = {
                 )
 
                 //get total price to charge
-                const totalPrice = listing.price * ((checkOutDate.getTime() - checkInDate.getTime()) / 86400000 + 1);
+                const totalPrice = listing.price * ((checkOutDate.getTime() - checkInDate.getTime()) / millisecondsPerDay + 1);
                 
                 //ger user document of host of listing
                 const host = await db.users.findOne({

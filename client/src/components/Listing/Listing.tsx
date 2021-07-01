@@ -3,12 +3,12 @@ import { Moment } from 'moment'
 import { useQuery } from '@apollo/react-hooks'
 import { LISTING } from '../../lib/graphql/queries'
 import { Listing as ListingData ,ListingVariables } from '../../lib/graphql/queries/Listing/__generated__/Listing'
-import { RouteComponentProps } from 'react-router'
 import { Layout, Row, Col } from 'antd'
 import { PageSkeleton, ErrorBanner } from '../../lib/components'
 import { ListingBookings, ListingDetails, ListingCreateBooking, ListingCreateBookingModal } from '../Listing/components'
 import { Viewer } from '../../lib/types'
 import { useScrollToTop } from '../../lib/hooks'
+import { useParams } from 'react-router-dom'
 
 interface MatchParams {
     id: string;
@@ -21,14 +21,17 @@ interface Props {
 const PAGE_LIMIT = 3;
 const { Content } = Layout;
 
-export const Listing = ({match, viewer}: Props & RouteComponentProps<MatchParams>) => {
+export const Listing = ({ viewer }: Props ) => {
     const [bookingsPage, setBookingsPage] = useState(1);
     const [checkInDate, setCheckInDate] = useState<Moment | null>(null)
     const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null)
     const [modalVisible, setModalVisible] = useState(false)
+
+    const { id } = useParams<MatchParams>()
+
     const { loading, data, error, refetch } = useQuery<ListingData ,ListingVariables>(LISTING, {
         variables: {
-            id: match.params.id,
+            id,
             bookingsPage,
             limit: PAGE_LIMIT
         }

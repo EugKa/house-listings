@@ -1,7 +1,6 @@
 import React from 'react'
-import { RouteComponentProps } from 'react-router';
 import { useQuery } from '@apollo/react-hooks';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Layout, Typography, Col, Row } from 'antd'
 
 import mapBackground from './assets/map-background.jpg'
@@ -22,7 +21,7 @@ const PAGE_LIMIT = 4;
 const PAGE_NUMBER = 1;
 
 
-export const Home = ({history}: RouteComponentProps) => {
+export const Home = () => {
     const {loading, data } = useQuery<ListingsData, ListingsVariables>(LISTINGS, {
         variables: {
             filter: ListingsFilter.PRICE_HIGH_TO_LOW,
@@ -31,6 +30,8 @@ export const Home = ({history}: RouteComponentProps) => {
         },
         fetchPolicy: 'cache-and-network'
     })
+
+    const history = useHistory()
 
     useScrollToTop();
     

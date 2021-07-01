@@ -2,12 +2,12 @@ import React, {useState} from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { USER } from '../../lib/graphql/queries'
 import { User as UserData, UserVariables } from '../../lib/graphql/queries/User/__generated__/User'
-import { RouteComponentProps } from 'react-router'
 import { Col, Row, Layout } from "antd";
 import { UserProfile, UserBookings, UserListings } from "./components";
 import { Viewer } from '../../lib/types'
 import { ErrorBanner, PageSkeleton } from '../../lib/components'
 import { useScrollToTop } from '../../lib/hooks'
+import { useParams } from 'react-router-dom'
 
 interface MatchParams {
     id: string
@@ -20,12 +20,13 @@ interface Props {
 const {Content} = Layout;
 const PAGE_LIMIT = 4
 
-export const User = ({match, viewer, setViewer}:Props & RouteComponentProps<MatchParams>) => {
+export const User = ({ viewer, setViewer}:Props) => {
     const [bookingsPage, setBookingsPage] = useState(1)
     const [listingsPage, setListingsPage] = useState(1)
+    const { id } = useParams<MatchParams>()
     const { data, loading, error, refetch } = useQuery<UserData, UserVariables>(USER, {
         variables : {
-            id: match.params.id,
+            id,
             bookingsPage,
             listingsPage,
             limit:PAGE_LIMIT
@@ -62,7 +63,7 @@ export const User = ({match, viewer, setViewer}:Props & RouteComponentProps<Matc
     }
 
     const user = data ? data.user : null;
-    const viewerIsUser = viewer.id === match.params.id;
+    const viewerIsUser = viewer.id === id;
 
     const userListings = user ? user.listings : null;
     const userBookings = user ? user.bookings : null;

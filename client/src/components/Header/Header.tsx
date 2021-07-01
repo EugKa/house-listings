@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Layout, Input } from "antd";
 
 import logo from './assets/tinyhouse-logo.png'
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { MenuItems } from '../MenuItems';
 import { Viewer } from '../../lib/types';
 import { displayErrorMessage } from '../../lib/utils';
@@ -15,12 +15,15 @@ interface Props {
     setViewer: (viewer: Viewer) => void
 }
 
-export const AppHeader = withRouter(
-    ({ viewer, setViewer, history, location }:Props & RouteComponentProps) => {
+export const AppHeader = ({ viewer, setViewer }:Props) => {
     const [search, setSearch] = useState('')
+
+    const history = useHistory();
+    const location = useLocation();
 
     useEffect(() => {
         const { pathname } = location;
+ 
         const pathnameSubStrings = pathname.split('/');
 
         if(!pathname.includes("/listings")) {
@@ -65,4 +68,4 @@ export const AppHeader = withRouter(
             </div>
         </Header>
     )
-})
+}
