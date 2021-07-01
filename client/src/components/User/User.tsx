@@ -7,6 +7,7 @@ import { Col, Row, Layout } from "antd";
 import { UserProfile, UserBookings, UserListings } from "./components";
 import { Viewer } from '../../lib/types'
 import { ErrorBanner, PageSkeleton } from '../../lib/components'
+import { useScrollToTop } from '../../lib/hooks'
 
 interface MatchParams {
     id: string
@@ -31,6 +32,8 @@ export const User = ({match, viewer, setViewer}:Props & RouteComponentProps<Matc
         },
         fetchPolicy: 'cache-and-network'
     })
+
+    useScrollToTop();
 
     const handleUserRefetch = async () => {
         await refetch()

@@ -9,6 +9,7 @@ import { Listings as ListingsData, ListingsVariables } from '../../lib/graphql/q
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ListingsFilters, ListingsPagination, ListingsSkeleton } from './components';
+import { useScrollToTop } from '../../lib/hooks';
 
 const { Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -31,6 +32,8 @@ export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
             page
         }
     })
+
+    useScrollToTop();
 
     useEffect(() => {
         setPage(1) 

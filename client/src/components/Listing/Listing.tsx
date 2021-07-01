@@ -8,6 +8,7 @@ import { Layout, Row, Col } from 'antd'
 import { PageSkeleton, ErrorBanner } from '../../lib/components'
 import { ListingBookings, ListingDetails, ListingCreateBooking, ListingCreateBookingModal } from '../Listing/components'
 import { Viewer } from '../../lib/types'
+import { useScrollToTop } from '../../lib/hooks'
 
 interface MatchParams {
     id: string;
@@ -32,6 +33,8 @@ export const Listing = ({match, viewer}: Props & RouteComponentProps<MatchParams
             limit: PAGE_LIMIT
         }
     })
+
+    useScrollToTop();
 
     const clearBookingDate = () => {
         setModalVisible(false);

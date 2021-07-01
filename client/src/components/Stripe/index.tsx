@@ -6,6 +6,7 @@ import { ConnectStripe as ConnectStripeData ,ConnectStripeVariables } from '../.
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Viewer } from '../../lib/types';
 import { displaySuccessNotification } from '../../lib/utils';
+import { useScrollToTop } from '../../lib/hooks';
 
 interface Props {
     viewer: Viewer;
@@ -28,6 +29,9 @@ export const Stripe = ({ viewer, setViewer, history}: Props & RouteComponentProp
         }
     })
     const connectStripeRef = useRef(connectStripe)
+
+    useScrollToTop();
+
     useEffect(() => {
        const code = new URL(window.location.href).searchParams.get("code")
        if(code) {
