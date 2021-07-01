@@ -1,13 +1,17 @@
-import { AddressComponent, AddressType, createClient, GeocodingAddressComponentType } from '@google/maps'
+import { AddressComponent, 
+  AddressType, 
+  createClient, 
+  GeocodingAddressComponentType 
+} from '@google/maps'
 import { google } from 'googleapis'
 
 const auth = new google.auth.OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_SECRET,
+    process.env.GOOGLE_CLIENT_ID_TEST,
+    process.env.GOOGLE_SECRET_TEST,
     `${process.env.PUBLIC_URL}/login`
 )
 
-const maps = createClient({ key: `${process.env.G_GEOCODE_KEY}`, Promise });
+const maps = createClient({ key: `${process.env.G_GEOCODE_KEY_TEST}`, Promise });
 
 const parseAddress = (addressComponents: AddressComponent<AddressType | GeocodingAddressComponentType>[]) => {
     let country = null;

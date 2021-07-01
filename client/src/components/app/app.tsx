@@ -61,7 +61,7 @@ export function App() {
   }
 
   const logInErrorBannerElement = error ? <ErrorBanner description="We weren't able to veritfy if you were logged in. Please try again later"/> : null;
-  const stripePromise = loadStripe(process.env.REACT_APP_S_PUBL_KEY as string)
+  const stripePromise = loadStripe(process.env.REACT_APP_S_PUBL_KEY_TEST as string)
 
   return (
     <Elements stripe={stripePromise}>

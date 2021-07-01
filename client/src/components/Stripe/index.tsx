@@ -27,14 +27,9 @@ export const Stripe = ({ viewer, setViewer, history}: Props & RouteComponentProp
             }
         }
     })
-    console.log(`data`, data)
-    console.log(`viewer`, viewer)
-    console.log(`history`, history)
     const connectStripeRef = useRef(connectStripe)
-    console.log(`connectStripeRef`, connectStripeRef)
     useEffect(() => {
        const code = new URL(window.location.href).searchParams.get("code")
-       console.log(`code`, code)
        if(code) {
            connectStripeRef.current({
                variables: {

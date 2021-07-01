@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Modal, Button, Divider, Typography } from 'antd'
 import { KeyOutlined } from "@ant-design/icons";
 import moment, { Moment } from 'moment';
@@ -56,29 +56,6 @@ export const ListingCreateBookingModal = ({
     const elements = useElements();
 
     const handleCreateBooking = async () => {
-        // if(!stripe) {
-        //     return displayErrorMessage("Sorry! We weren't able to connect with Stripe");
-        // }
-        // const cardElement = elements!.getElement(CardElement);
-        // let { paymentMethod, error } = await stripe.createPaymentMethod({
-        //     type: 'card',
-        //     card: cardElement!,
-        //   });
-        //   if (paymentMethod) {
-        //     console.log(paymentMethod);
-        //     createBooking({
-        //         variables: {
-        //             input: {
-        //                 id,
-        //                 source: paymentMethod.id,
-        //                 checkIn: moment(checkInDate).format("YYYY-MM-DD"),
-        //                 checkOut: moment(checkOutDate).format("YYYY-MM-DD"),
-        //             }
-        //         }
-        //     })
-        // } else {
-        //     displayErrorMessage(error && error.message ? error.message: "Sorry! We weren't able to book the listing. Please try again later.")
-        // }
 
         if (!stripe || !elements) {
             return displayErrorMessage("Sorry! We weren't able to connect with Stripe.");

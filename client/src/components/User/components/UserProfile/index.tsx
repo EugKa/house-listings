@@ -15,8 +15,8 @@ interface Props {
     handleUserRefetch: () => Promise<void>
 }
 
-const { REACT_APP_S_CLIENT_ID } = process.env;
-const stripeAuthUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${REACT_APP_S_CLIENT_ID}&scope=read_write`
+const { REACT_APP_S_CLIENT_ID_TEST } = process.env;
+const stripeAuthUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${REACT_APP_S_CLIENT_ID_TEST}&scope=read_write`
 
 const { Paragraph, Text, Title } = Typography;
 

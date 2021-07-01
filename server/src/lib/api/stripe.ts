@@ -1,6 +1,6 @@
 import stripe from 'stripe';
 
-const client = new stripe(`${process.env.STRIPE_SECRET_KEY}`, {
+const client = new stripe(`${process.env.STRIPE_SECRET_KEY_TEST}`, {
     apiVersion: '2020-08-27'
 })
 

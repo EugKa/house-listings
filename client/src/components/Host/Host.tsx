@@ -51,7 +51,6 @@ export const Host = ({ viewer }: Props) => {
     }
 
     const handleSubmit = (values:any) => {
-        console.log(`values`, values)
         const fullAddress = `${values.address}, ${values.city}, ${values.state},${values.postalCode}`
 
         const input = {
@@ -108,10 +107,6 @@ export const Host = ({ viewer }: Props) => {
             <Redirect to={`/listing/${data.hostListing.id}`}/>
         )
     }
-
-    console.log(`data`, data)
-    console.log(`datahostListing`, data?.hostListing)
-
     return (
         <Content  className="host-content">
             <Form layout="vertical" onFinish={handleSubmit}>

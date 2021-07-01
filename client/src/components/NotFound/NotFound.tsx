@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { Empty , Layout, Typography } from 'antd';
+import { Link } from 'react-router-dom';
+
+const { Content } = Layout;
+const { Text } = Typography;
 
 export const NotFound = () => {
     return (
-        <div>
-            NotFound
-        </div>
+        <Content className="not-found">
+            <Empty description={
+                <Fragment>
+                    <Text className="not-found__description-title">
+                        Uh oh! Something went wrond :( 
+                    </Text>
+                    <Text className="not-found__description-subtitle">
+                        The page you're looking for can't be found
+                    </Text>
+                </Fragment>
+            }></Empty>
+            <Link to="/" className="not-found__cta ant-btn ant-btn-primary ant-btn-lg">
+                Go to Home
+            </Link>
+        </Content>
     )
 }

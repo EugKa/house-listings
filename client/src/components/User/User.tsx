@@ -28,7 +28,8 @@ export const User = ({match, viewer, setViewer}:Props & RouteComponentProps<Matc
             bookingsPage,
             listingsPage,
             limit:PAGE_LIMIT
-        }
+        },
+        fetchPolicy: 'cache-and-network'
     })
 
     const handleUserRefetch = async () => {
@@ -58,7 +59,6 @@ export const User = ({match, viewer, setViewer}:Props & RouteComponentProps<Matc
     }
 
     const user = data ? data.user : null;
-    console.log(`user`, user)
     const viewerIsUser = viewer.id === match.params.id;
 
     const userListings = user ? user.listings : null;
