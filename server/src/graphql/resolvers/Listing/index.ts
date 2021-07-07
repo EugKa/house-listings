@@ -1,9 +1,9 @@
 import { IResolvers } from 'apollo-server-express'
 import { Request } from 'express';
-import { ObjectId } from "mongodb";
 import { Listing, Database, User, ListingType } from '../../../lib/types'
 import { Google, Cloudinary } from '../../../lib/api'
 import { authorize } from '../../../lib/utils'
+import crypto  from 'crypto'
 import { 
   ListingArgs, 
   ListingBookingsArgs, 
@@ -13,7 +13,8 @@ import {
   ListingsFilter,
   ListingsQuery,
   HostListingArgs,
-  HostListingInput
+  HostListingInput,
+  Order
  } from './types';
 
 const verifyHostListingInput = ({title, description, type, price }: HostListingInput) => {
@@ -39,13 +40,13 @@ export const listingsResolver: IResolvers = {
             { db, req }: { db: Database, req: Request }
         ): Promise<Listing> => {
             try {
-                const listing = await db.listings.findOne({ _id: new ObjectId(id)})
+                const listing = (await db.listings.findOne({ id })) as Listing;
                 if(!listing) {
                     throw new Error("listing can't be found");
                 }
 
                 const viewer = await authorize(db, req);
-                if(viewer && viewer._id === listing.host) {
+                if(viewer && viewer.id === listing.host) {
                     listing.authorized = true;
                 }
 
@@ -83,21 +84,25 @@ export const listingsResolver: IResolvers = {
                   data.region = `${cityText}, ${adminText}, ${country}`
                 }
         
-                let cursor = await db.listings.find(query);
+                let order: Order | null = null;
 
                 if(filter && filter === ListingsFilter.PRICE_LOW_TO_HIGH) {
-                    cursor = cursor.sort({ price: 1 })
+                    order = { price: "ASC" }
                 }
 
                 if(filter && filter === ListingsFilter.PRICE_HIGH_TO_LOW) {
-                    cursor = cursor.sort({ price: -1 })
+                  order = { price: "DESC" }
                 }
-        
-                cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
-                cursor = cursor.limit(limit);
-        
-                data.total = await cursor.count();
-                data.result = await cursor.toArray();
+
+                const count = await db.listings.count(query);
+                const listings = await db.listings.find({
+                  where: {...query},
+                  order: {...order},
+                  skip: page > 0 ? (page - 1) * limit : 0,
+                  take: limit
+                })
+                data.total = count;
+                data.result = listings;
         
                 return data;
               } catch (error) {
@@ -125,8 +130,8 @@ export const listingsResolver: IResolvers = {
 
         const imageURL = await Cloudinary.upload(input.image)
   
-        const insertResult = await db.listings.insertOne({
-          _id: new ObjectId(),
+        const newListing: Listing = {
+          id: crypto.randomBytes(16).toString("hex"),
           ...input,
           image: imageURL,
           bookings: [],
@@ -134,29 +139,24 @@ export const listingsResolver: IResolvers = {
           country,
           admin,
           city,
-          host: viewer._id
-        });
-  
-        const insertedListing: Listing = insertResult.ops[0];
-  
-        await db.users.updateOne(
-          { _id: viewer._id },
-          { $push: { listings: insertedListing._id } }
-        );
+          host: viewer.id
+        };
+
+        const insertedListing = await db.listings.create(newListing).save();
+
+        viewer.listings.push(insertedListing.id);
+        await viewer.save();
   
         return insertedListing;
       }
     },
     Listing: {
-        id: (listing: Listing): string => {
-            return listing._id.toString();
-        },
         host: async (
             listing: Listing,
             _args,
             { db }: { db: Database }
         ): Promise<User> => {
-            const host = await db.users.findOne({ _id: listing.host })
+            const host = await db.users.findOne({ id: listing.host })
             if(!host) {
                 throw new Error("host can't be found");
             }
@@ -180,15 +180,14 @@ export const listingsResolver: IResolvers = {
                 result: []
               };
       
-              let cursor = await db.bookings.find({
-                _id: { $in: listing.bookings }
-              });
+              const bookings = await db.bookings.findByIds(listing.bookings, {
+                skip: page > 0 ? (page - 1) * limit : 0,
+                take: limit,
+              })
       
-              cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
-              cursor = cursor.limit(limit);
       
-              data.total = await cursor.count();
-              data.result = await cursor.toArray();
+              data.total = listing.bookings.length;
+              data.result = bookings;
       
               return data;
             } catch (error) {

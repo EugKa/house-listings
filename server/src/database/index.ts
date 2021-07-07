@@ -1,21 +1,13 @@
-import { MongoClient } from 'mongodb'
-import { Database, User, Listing, Booking } from '../lib/types'
-
-const {MONGO_DB_USER, MONGO_DB_USER_PASSWORD, MONGO_DB_CLUSTER} = process.env
-
-
-const url = `mongodb+srv://${MONGO_DB_USER}:${MONGO_DB_USER_PASSWORD}@${MONGO_DB_CLUSTER}.mongodb.net/tiny-pract?retryWrites=true&w=majority`
+import { createConnection } from 'typeorm'
+import { Database } from '../lib/types'
+import { BookingEntity, ListingEntity, UserEntity} from './entity'
 
 export const connectDatabase = async (): Promise<Database> => {
-    const client = await MongoClient.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    const db = client.db("main")
+    const connection = await createConnection()
 
     return {
-        bookings: db.collection<Booking>("bookings"),
-        listings: db.collection<Listing>('listnings'),
-        users: db.collection<User>("users")
+        bookings: connection.getRepository(BookingEntity),
+        listings: connection.getRepository(ListingEntity),
+        users: connection.getRepository(UserEntity)
     }
 }

@@ -6,6 +6,9 @@
         "outDir": "../tiny-house-deploy/src",
         "esModuleInterop": true,
         "strict": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "strictPropertyInitialization": false
     },
     "exclude": ["temp"]
 }
